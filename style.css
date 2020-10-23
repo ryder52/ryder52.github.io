@@ -1,0 +1,12 @@
+button {
+  padding: 0.5rem;
+  border: 2px solid red;
+  border-radius: 3px;
+  background-color: white;
+  color: black;
+  cursor: pointer;
+}
+button.inactive {
+  color: lightgray;
+}
+/*# sourceMappingURL=style.css.map */

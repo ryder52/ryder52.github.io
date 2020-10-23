@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Encoder</title>
+<!--    <link rel="shortcut icon" href="/favicon.png">-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<input type="file" id="file">
+
+<select id="preset">
+    <option selected value="ultrafast">ultra fast</option>
+    <option value="superfast">super fast</option>
+    <option value="veryfast">very fast</option>
+    <option value="faster">faster</option>
+    <option value="fast">fast</option>
+    <option value="medium">medium</option>
+    <option value="slow">slow</option>
+    <option value="slower">slower</option>
+    <option value="veryslow">very slow</option>
+</select>
+
+<select id="threads">
+    <option value="1">1</option>
+    <option selected value="2">2</option>
+    <option value="4">4</option>
+    <option value="8">8</option>
+</select>
+
+<select id="resolution">
+    <option value="640x480">640x480</option>
+    <option value="480x640">480x640</option>
+    <option selected value="1280x720">1280x720</option>
+    <option value="720x1280">720x1280</option>
+    <option value="1980x1020">1980x1020</option>
+    <option value="1020x1980">1020x1980</option>
+</select>
+
+<button type="button" id="encode" class="inactive">Encode</button>
+
+<span id="time"></span>
+
+<script src="https://unpkg.com/@ffmpeg/ffmpeg@0.8.3/dist/ffmpeg.min.js"></script>
+<script type="text/javascript" src="script.js"></script>
+</body>
+</html>
