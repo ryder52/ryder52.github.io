@@ -27,9 +27,10 @@ ffmpeg.load().then(() => {
 async function encode(preset, threads, resolution) {
     const selectedFile = document.getElementById('file').files[0];
     const options = `-preset ${preset} -threads ${threads} -s ${resolution} -crf 26`;
+    const output = Math.random().toString(36).substring(7);
     await ffmpeg.write(selectedFile.name, selectedFile);
-    await ffmpeg.transcode(selectedFile.name, 'output.mp4', options);
-    let blob = new Blob([ffmpeg.read('output.mp4')], { type: "video/mp4" });
+    await ffmpeg.transcode(selectedFile.name, `${output}.mp4`, options);
+    let blob = new Blob([ffmpeg.read(`${output}.mp4`)], { type: "video/mp4" });
     saveData(blob, 'output.mp4');
 }
 
