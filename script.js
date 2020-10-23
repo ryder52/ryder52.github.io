@@ -1,17 +1,19 @@
 const { createFFmpeg } = FFmpeg;
-const timeElement = document.querySelector('#time');
-let time = '';
-const analog = (log) => {
-    let result = log.message.match(/time=(\d\d:\d\d:\d\d.\d\d)/) || [];
-    console.log(result);
-    if (result.length) {
-        if (time !== result[1]) {
-            time = result[1];
-            timeElement.innerHTML = result[1];
-        }
-    }
+const progressElement = document.querySelector('#progressbar');
+const encodeBlock = document.querySelector('#encodeBlock');
+const progressBlock = document.querySelector('#progressBlock');
+const fileInput = document.querySelector('#file');
+const loader = (progress) => {
+    let value = progress.ratio > 0 ? Math.floor(progress.ratio * 100) : 0;
+    progressElement.style.width = value + '%';
 }
-const ffmpeg = createFFmpeg({ log: false, logger: analog });
+const ffmpeg = createFFmpeg({ log: false, progress: loader });
+
+fileInput.addEventListener('change', (event) => {
+    const fileLabel = document.querySelector('#fileLabel');
+    fileLabel.innerHTML = event.target.files[0].name;
+})
+
 ffmpeg.load().then(() => {
     let encodeButton = document.querySelector('#encode');
     encodeButton.classList.remove('inactive');
@@ -25,13 +27,17 @@ ffmpeg.load().then(() => {
 });
 
 async function encode(preset, threads, resolution) {
-    const selectedFile = document.getElementById('file').files[0];
+    encodeBlock.classList.add('hidden');
+    progressBlock.classList.remove('hidden');
+    const selectedFile = fileInput.files[0];
     const options = `-preset ${preset} -threads ${threads} -s ${resolution} -crf 26`;
     const output = Math.random().toString(36).substring(7);
     await ffmpeg.write(selectedFile.name, selectedFile);
     await ffmpeg.transcode(selectedFile.name, `${output}.mp4`, options);
     let blob = new Blob([ffmpeg.read(`${output}.mp4`)], { type: "video/mp4" });
     saveData(blob, 'output.mp4');
+    encodeBlock.classList.remove('hidden');
+    progressBlock.classList.add('hidden');
 }
 
 function saveData(blob, fileName) {
